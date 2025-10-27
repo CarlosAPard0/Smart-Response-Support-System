@@ -1,0 +1,14 @@
+[
+    {
+        "query_text": "When can I talk to someone from support?",
+        "retrieved_response": "Our support team is available from 9 AM to 5 PM, Monday to Friday.",
+        "timestamp": "2025-10-22T17:23:00.901836Z",
+        "confidence_score": 0.682093452311041
+    },
+    {
+        "query_text": "What is the policy for getting a refund on a defective product?",
+        "retrieved_response": "Yes, refunds are available within 30 days of purchase if you meet our refund policy criteria.",
+        "timestamp": "2025-10-22T17:23:01.359952Z",
+        "confidence_score": 0.49636265140708685
+    }
+]
