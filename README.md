@@ -1,35 +1,51 @@
-# Tutorial: Crear un Chatbot RAG con OpenAI (Proyecto de examen)
+# RAG Assistant — Retrieval-Augmented Generation for Customer Support
 
-Este repositorio contiene un examen original y una versión tutorial refinada que demuestra cómo construir un chatbot con RAG (Retrieval-Augmented Generation) usando las APIs de OpenAI.
+RAG Assistant is an interactive, tutorial-style project demonstrating how to build a retrieval-augmented generation (RAG) system for customer support. It combines semantic search (embeddings + vector retrieval) with LLM generation to return accurate, context-aware answers while keeping a reproducible and testable pipeline.
 
-Contenido:
-- `notebook.ipynb`: Notebook original del examen.
-- `tutorial_notebook.ipynb`: Notebook tutorial, limpio y comentado (en español).
-- `knowledge_base.csv`, `predefined_responses.json`, `chatbot_responses.json`: Datos de ejemplo (si están presentes).
-- `requirements.txt`: Dependencias necesarias.
+What you'll find in this repo
+- `notebook.ipynb` — Original notebook (reference).
+- `tutorial_notebook.ipynb` — Clean, step-by-step tutorial notebook (English/Spanish-ready) that explains each stage and includes a mock mode for offline testing.
+- Example data files (if present): `knowledge_base.csv`, `predefined_responses.json`, `chatbot_responses.json`.
+- `requirements.txt` — Minimal dependencies.
 
-Requisitos previos:
-- Python 3.9+
-- Una clave de OpenAI configurada en la variable de entorno `OPENAI_API_KEY` si deseas ejecutar llamadas reales a la API.
+Why this project matters
+- Improves response accuracy and consistency by prioritizing retrieved answers from a knowledge base.
+- Falls back to LLM generation when retrieval confidence is low, ensuring coverage for unexpected queries.
+- Provides structured logging (query, response, timestamp, confidence) for auditing and continuous improvement.
 
-Instalación (PowerShell):
+Technical highlights
+- 3-stage pipeline: ingestion & chunking → batch embedding generation & caching → vector retrieval + LLM fallback.
+- Robust engineering practices: batching, retry wrappers, vector normalization, and persisted indexes (demo JSON; extensible to FAISS/Annoy/Pinecone).
+- Development-friendly: offline/mock mode, unit-testable utilities, and an interactive tutorial notebook.
+
+Quick start (PowerShell)
 
 ```powershell
 python -m venv .venv; .\.venv\Scripts\Activate.ps1
 pip install -r requirements.txt
 ```
 
-Cómo usar:
-1. Abre `tutorial_notebook.ipynb` en Jupyter / VS Code.
-2. Si no tienes clave de OpenAI, ejecuta el notebook en modo `mock` para ver el flujo completo sin llamadas a la API.
-3. Para ejecución real, exporta `OPENAI_API_KEY` y ejecuta las celdas.
+Open the tutorial notebook in Jupyter or VS Code:
 
-Archivos creados por este asistente:
-- `tutorial_notebook.ipynb`: Notebook tutorial con explicación por stages.
-- `README.md`: Este archivo.
-- `requirements.txt`: Lista de dependencias.
+```powershell
+jupyter notebook tutorial_notebook.ipynb
+# or execute the entire notebook headlessly
+jupyter nbconvert --to notebook --execute tutorial_notebook.ipynb --inplace
+```
 
-Siguientes pasos recomendados:
-- Revisar y ajustar el umbral de similitud (SIMILARITY_THRESHOLD) según tu KB.
-- Añadir pruebas unitarias para las funciones de similitud y preprocesamiento.
-- Considerar un backend simple (FastAPI/Flask) para exponer el chatbot.
+Notes
+- The notebook includes a `USE_MOCK` mode that avoids calling external APIs, making it easy to run and test locally without an OpenAI key.
+- To run with real OpenAI calls, set the `OPENAI_API_KEY` environment variable in your OS (and restart your shell/IDE):
+
+```powershell
+setx OPENAI_API_KEY "your_api_key_here"
+# restart your terminal/IDE to pick up the environment variable
+```
+
+Suggested next steps
+- Tune similarity thresholds, chunk sizes, and top-k to fit your KB and latency/cost constraints.
+- Swap the demo JSON vector store for FAISS or Pinecone for production-scale retrieval.
+- Add pytest-based unit tests and export the core utilities to a Python package for reuse.
+
+License & contribution
+- Feel free to adapt this tutorial for demos, interviews, or prototypes. If you want, I can add a CONTRIBUTING guide and a permissive license file (MIT).
